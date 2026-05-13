@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\frank\\\\Desktop\\\\ESTRATEGIA\\\\InteligenciaTerritorial\\\\scripts\")",
+      "Bash(Out-Null)",
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\frank\\\\Desktop\\\\ESTRATEGIA\\\\InteligenciaTerritorial\\\\data\\\\geo\")",
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\frank\\\\Desktop\\\\ESTRATEGIA\\\\InteligenciaTerritorial\\\\data\\\\processed\")",
+      "Bash(Write-Output \"Carpetas creadas\")"
+    ]
+  }
+}
