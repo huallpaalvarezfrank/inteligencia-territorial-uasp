@@ -222,9 +222,9 @@ export default function App() {
     mapRef.current = map
 
     Promise.all([
-      fetch('/mapa_final.geojson').then(r => r.json()),
-      fetch('/mapa_final_sorochuco.geojson').then(r => r.json()),
-      fetch('/catastro_minero.geojson').then(r => r.json()),
+      fetch(`${import.meta.env.BASE_URL}mapa_final.geojson`).then(r => r.json()),
+      fetch(`${import.meta.env.BASE_URL}mapa_final_sorochuco.geojson`).then(r => r.json()),
+      fetch(`${import.meta.env.BASE_URL}catastro_minero.geojson`).then(r => r.json()),
     ]).then(([enc, soro, cat]) => {
       geoDataRef.current     = enc
       geoDataSoroRef.current = soro
