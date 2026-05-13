@@ -25,8 +25,9 @@ const DEPUTY_COLORS = {
 
 const VARIABLES = [
   // Electorales
-  { key: 'pct_jxp',         label: '% Juntos por el Perú',   unit: '%',  min: 30,  max: 85,   palette: ['#1e3a5f','#1d6fa4','#2196d6','#5bbde8','#aadff5','#e0f4fc'] },
-  { key: 'pct_fp',          label: '% Fuerza Popular',        unit: '%',  min: 4,   max: 22,   palette: ['#fff7ed','#fed7aa','#fb923c','#ea580c','#c2410c','#7c1d0a'] },
+  { key: 'pct_jxp',          label: '% JP — Presidencial',      unit: '%',  min: 30,  max: 85,   palette: ['#1e3a5f','#1d6fa4','#2196d6','#5bbde8','#aadff5','#e0f4fc'] },
+  { key: 'pct_jp_diputados', label: '% JP — Diputados (lista)', unit: '%',  min: 20,  max: 80,   palette: ['#1e3a5f','#1d6fa4','#2196d6','#5bbde8','#aadff5','#e0f4fc'] },
+  { key: 'pct_fp',           label: '% Fuerza Popular',         unit: '%',  min: 4,   max: 22,   palette: ['#fff7ed','#fed7aa','#fb923c','#ea580c','#c2410c','#7c1d0a'] },
   { key: 'pct_obra',        label: '% Partido Cívico Obras',  unit: '%',  min: 0,   max: 25,   palette: ['#2e1065','#5b21b6','#7c3aed','#a78bfa','#c4b5fd','#ede9fe'] },
   { key: 'participacion',   label: 'Participación electoral',  unit: '%',  min: 30,  max: 100,  palette: ['#052e16','#14532d','#166534','#16a34a','#4ade80','#bbf7d0'] },
   // Diputados 2026
@@ -56,7 +57,7 @@ const VARIABLES = [
 ]
 
 const PARTIDOS = {
-  pct_jxp: 'Juntos por el Perú', pct_fp: 'Fuerza Popular',
+  pct_jxp: 'JP Presidencial', pct_jp_diputados: 'JP Diputados', pct_fp: 'Fuerza Popular',
   pct_obra: 'Partido Cívico Obras', pct_pp: 'Podemos Perú',
   pct_an: 'Ahora Nación', pct_lp: 'Libertad Popular',
   pct_pbg: 'Perú Bienestar Grande', pct_ppt: 'PPT',
