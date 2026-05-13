@@ -25,11 +25,11 @@ const DEPUTY_COLORS = {
 
 const VARIABLES = [
   // Electorales
-  { key: 'pct_jxp',          label: '% JP — Presidencial',      unit: '%',  min: 30,  max: 85,   palette: ['#1e3a5f','#1d6fa4','#2196d6','#5bbde8','#aadff5','#e0f4fc'] },
-  { key: 'pct_jp_diputados', label: '% JP — Diputados (lista)', unit: '%',  min: 20,  max: 80,   palette: ['#1e3a5f','#1d6fa4','#2196d6','#5bbde8','#aadff5','#e0f4fc'] },
+  { key: 'pct_jxp',          label: '% JP — Presidencial',      unit: '%',  min: 30,  max: 85,   palette: ['#e0f4fc','#aadff5','#5bbde8','#2196d6','#1d6fa4','#1e3a5f'] },
+  { key: 'pct_jp_diputados', label: '% JP — Diputados (lista)', unit: '%',  min: 20,  max: 80,   palette: ['#e0f4fc','#aadff5','#5bbde8','#2196d6','#1d6fa4','#1e3a5f'] },
   { key: 'pct_fp',           label: '% Fuerza Popular',         unit: '%',  min: 4,   max: 22,   palette: ['#fff7ed','#fed7aa','#fb923c','#ea580c','#c2410c','#7c1d0a'] },
-  { key: 'pct_obra',        label: '% Partido Cívico Obras',  unit: '%',  min: 0,   max: 25,   palette: ['#2e1065','#5b21b6','#7c3aed','#a78bfa','#c4b5fd','#ede9fe'] },
-  { key: 'participacion',   label: 'Participación electoral',  unit: '%',  min: 30,  max: 100,  palette: ['#052e16','#14532d','#166534','#16a34a','#4ade80','#bbf7d0'] },
+  { key: 'pct_obra',        label: '% Partido Cívico Obras',  unit: '%',  min: 0,   max: 25,   palette: ['#ede9fe','#c4b5fd','#a78bfa','#7c3aed','#5b21b6','#2e1065'] },
+  { key: 'participacion',   label: 'Participación electoral',  unit: '%',  min: 30,  max: 100,  palette: ['#bbf7d0','#4ade80','#16a34a','#166534','#14532d','#052e16'] },
   // Diputados 2026
   { key: 'diputado_dom',        label: 'Diputado dominante',           type: 'categorical', colorMap: DEPUTY_COLORS },
   // Votos absolutos
@@ -47,13 +47,13 @@ const VARIABLES = [
   { key: 'pref_jibaja_pct',    label: 'Luis Jibaja — %',              unit: '%',     min: 0, max: 2,   palette: ['#fef3c7','#fcd34d','#f59e0b','#d97706','#92400e','#451a03'], deputy: true },
   { key: 'pref_ticlla_pct',    label: 'Segundo Ticlla — %',           unit: '%',     min: 0, max: 1,   palette: ['#ffedd5','#fdba74','#fb923c','#ea580c','#9a3412','#431407'], deputy: true },
   // Demográficas
-  { key: 'poblacion',       label: 'Población (hab.)',         unit: 'hab',    min: 0,    max: 1400, palette: ['#0f172a','#1e3a6e','#2563eb','#60a5fa','#bfdbfe','#eff6ff'] },
-  { key: 'densidad_hab_km2',label: 'Densidad poblacional',    unit: 'hab/km²',min: 0,    max: 200,  palette: ['#1c1200','#78350f','#d97706','#fbbf24','#fde68a','#fffbeb'] },
-  { key: 'altitud',         label: 'Altitud',                  unit: 'm',      min: 1800, max: 4000, palette: ['#14290e','#1a4017','#2d6a24','#5a9e3a','#a3d977','#d9f0b0'] },
+  { key: 'poblacion',       label: 'Población (hab.)',         unit: 'hab',    min: 0,    max: 1400, palette: ['#eff6ff','#bfdbfe','#60a5fa','#2563eb','#1e3a6e','#0f172a'] },
+  { key: 'densidad_hab_km2',label: 'Densidad poblacional',    unit: 'hab/km²',min: 0,    max: 200,  palette: ['#fffbeb','#fde68a','#fbbf24','#d97706','#78350f','#1c1200'] },
+  { key: 'altitud',         label: 'Altitud',                  unit: 'm',      min: 1800, max: 4000, palette: ['#d9f0b0','#a3d977','#5a9e3a','#2d6a24','#1a4017','#14290e'] },
   // Servicios básicos (INEI 2017 — requiere data/redatam/)
-  { key: 'agua_pct',        label: 'Acceso a agua potable',   unit: '%',  min: 0,   max: 100,  palette: ['#7f1d1d','#b91c1c','#ef4444','#60a5fa','#2563eb','#1e3a8a'], census: true },
-  { key: 'luz_pct',         label: 'Alumbrado eléctrico',     unit: '%',  min: 0,   max: 100,  palette: ['#1c1a00','#78690f','#d4a017','#fbbf24','#fef08a','#fefce8'], census: true },
-  { key: 'sanit_pct',       label: 'Saneamiento (red pública)',unit: '%',  min: 0,   max: 100,  palette: ['#1a0e2e','#4c1d95','#7c3aed','#a78bfa','#ddd6fe','#f5f3ff'], census: true },
+  { key: 'agua_pct',        label: 'Acceso a agua potable',   unit: '%',  min: 0,   max: 100,  palette: ['#fef2f2','#fca5a5','#ef4444','#3b82f6','#1d4ed8','#1e3a8a'], census: true },
+  { key: 'luz_pct',         label: 'Alumbrado eléctrico',     unit: '%',  min: 0,   max: 100,  palette: ['#fefce8','#fef08a','#fbbf24','#d4a017','#78690f','#1c1a00'], census: true },
+  { key: 'sanit_pct',       label: 'Saneamiento (red pública)',unit: '%',  min: 0,   max: 100,  palette: ['#f5f3ff','#ddd6fe','#a78bfa','#7c3aed','#4c1d95','#1a0e2e'], census: true },
 ]
 
 const PARTIDOS = {
