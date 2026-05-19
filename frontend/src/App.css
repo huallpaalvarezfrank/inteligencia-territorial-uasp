@@ -265,3 +265,19 @@ body {
   color: #475569 !important;
 }
 .leaflet-control-attribution a { color: #64748b !important; }
+
+/* Labels de nombre de distrito */
+.dist-label-tt {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #f59e0b !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-shadow: 0 0 4px #000, 0 0 8px #000;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.dist-label-tt::before { display: none !important; }
