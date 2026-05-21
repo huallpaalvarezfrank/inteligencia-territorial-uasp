@@ -231,15 +231,19 @@ df_d = pd.read_sql_query("""
 df_elec = df_p.merge(df_s, on=["distrito","local_votacion"], how="left")
 df_elec = df_elec.merge(df_d, on=["distrito","local_votacion"], how="left")
 
-# Preferencias Diputados — top 4 JxP Cusco
+# Preferencias Diputados — 5 candidatos seleccionados
 df_pref_d = pd.read_sql_query("""
     SELECT r.distrito, r.local_votacion,
-           SUM(CASE WHEN p.nombre_cand LIKE '%HUACAC%'    THEN p.votos_pref ELSE 0 END) AS pref_huacac,
-           SUM(CASE WHEN p.nombre_cand LIKE '%MARQUEZ%'   THEN p.votos_pref ELSE 0 END) AS pref_marq,
-           SUM(CASE WHEN p.nombre_cand LIKE '%PEREZ%MALLQUI%' OR p.nombre_cand LIKE '%MALLQUI%'
-                    THEN p.votos_pref ELSE 0 END) AS pref_mallq,
-           SUM(CASE WHEN p.nombre_cand LIKE '%MAMANI%CARDONA%' OR p.nombre_cand LIKE '%SIMON%MAMANI%'
-                    THEN p.votos_pref ELSE 0 END) AS pref_maman
+           SUM(CASE WHEN p.nombre_cand LIKE '%MARQUEZ%HUANCA%' OR p.nombre_cand LIKE '%ANALI%MARQUEZ%'
+                    THEN p.votos_pref ELSE 0 END) AS pref_marq,
+           SUM(CASE WHEN p.nombre_cand LIKE '%PEREZ%MALLQUI%' OR p.nombre_cand LIKE '%JULIAN%LUIS%PEREZ%'
+                    THEN p.votos_pref ELSE 0 END) AS pref_julian,
+           SUM(CASE WHEN p.nombre_cand LIKE '%HOLGUIN%' OR p.nombre_cand LIKE '%CESAR%AUGUSTO%HOLGUIN%'
+                    THEN p.votos_pref ELSE 0 END) AS pref_holg,
+           SUM(CASE WHEN p.nombre_cand LIKE '%HEBER%LOPEZ%' OR p.nombre_cand LIKE '%LOPEZ%LETONA%'
+                    THEN p.votos_pref ELSE 0 END) AS pref_lopez,
+           SUM(CASE WHEN p.nombre_cand LIKE '%EDWIN%ESPINOZA%' OR p.nombre_cand LIKE '%ESPINOZA%HUILLCA%'
+                    THEN p.votos_pref ELSE 0 END) AS pref_edwin
     FROM preferencias_2026 p
     INNER JOIN (
         SELECT DISTINCT num_mesa, local_votacion, distrito
@@ -282,10 +286,13 @@ df_elec["pct_rp_p"]    = (df_elec["votos_rp_p"]   / df_elec["votos_val_p"].repla
 df_elec["pct_jxp_d"]   = (df_elec["votos_jxp_d"]  / df_elec["votos_val_d"].replace(0,1) * 100).round(2)
 df_elec["pct_jxp_dip"] = (df_elec["votos_jxp_dip"]/ df_elec["votos_val_dip"].replace(0,1) * 100).round(2)
 df_elec["particip"]    = (df_elec["total_vot"]     / df_elec["electores"].replace(0,1) * 100).round(2)
-df_elec["pct_huacac"]  = (df_elec["pref_huacac"] / df_elec["total_vot"].replace(0,1) * 100).round(2)
+# Preferencias diputados — 5 candidatos
 df_elec["pct_marq"]    = (df_elec["pref_marq"]   / df_elec["total_vot"].replace(0,1) * 100).round(2)
-df_elec["pct_mallq"]   = (df_elec["pref_mallq"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
-df_elec["pct_maman"]   = (df_elec["pref_maman"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
+df_elec["pct_julian"]  = (df_elec["pref_julian"] / df_elec["total_vot"].replace(0,1) * 100).round(2)
+df_elec["pct_holg"]    = (df_elec["pref_holg"]   / df_elec["total_vot"].replace(0,1) * 100).round(2)
+df_elec["pct_lopez"]   = (df_elec["pref_lopez"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
+df_elec["pct_edwin"]   = (df_elec["pref_edwin"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
+# Preferencias senadores
 df_elec["pct_jancc"]   = (df_elec["pref_jancc"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
 df_elec["pct_veran"]   = (df_elec["pref_veran"]  / df_elec["total_vot"].replace(0,1) * 100).round(2)
 
@@ -486,16 +493,18 @@ rename_pts = {
     "pct_jxp_d":      "pct_jxp_d",
     "pct_jxp_dip":    "pct_jxp_di",
     "particip":       "particip",
-    "pref_huacac":    "pref_huac",
     "pref_marq":      "pref_marq",
-    "pref_mallq":     "pref_mallq",
-    "pref_maman":     "pref_maman",
+    "pref_julian":    "pref_juli",
+    "pref_holg":      "pref_holg",
+    "pref_lopez":     "pref_lopez",
+    "pref_edwin":     "pref_edwin",
     "pref_jancc":     "pref_jancc",
     "pref_veran":     "pref_veran",
-    "pct_huacac":     "pct_huac",
     "pct_marq":       "pct_marq",
-    "pct_mallq":      "pct_mallq",
-    "pct_maman":      "pct_maman",
+    "pct_julian":     "pct_julian",
+    "pct_holg":       "pct_holg",
+    "pct_lopez":      "pct_lopez",
+    "pct_edwin":      "pct_edwin",
     "pct_jancc":      "pct_jancc",
     "pct_veran":      "pct_veran",
 }
@@ -523,11 +532,11 @@ elec_cols = [
     "votos_jxp_p", "votos_an_p", "votos_fp_p", "votos_obras_p", "votos_rp_p", "votos_val_p",
     "votos_jxp_d", "votos_an_d", "votos_val_d",
     "votos_jxp_dip", "votos_an_dip", "votos_val_dip",
-    "pref_huacac", "pref_marq", "pref_mallq", "pref_maman",
+    "pref_marq", "pref_julian", "pref_holg", "pref_lopez", "pref_edwin",
     "pref_jancc", "pref_veran",
     "pct_jxp_p", "pct_an_p", "pct_fp_p", "pct_obras_p", "pct_rp_p",
     "pct_jxp_d", "pct_jxp_dip", "particip",
-    "pct_huacac", "pct_marq", "pct_mallq", "pct_maman",
+    "pct_marq", "pct_julian", "pct_holg", "pct_lopez", "pct_edwin",
     "pct_jancc", "pct_veran",
     "geometry",
 ]
@@ -599,10 +608,11 @@ rename_cp = {
     "votos_rp_p":     "v_rp_p",
     "votos_jxp_d":    "v_jxp_d",
     "votos_jxp_dip":  "v_jxp_dip",
-    "pref_huacac":    "pref_huac",
     "pref_marq":      "pref_marq",
-    "pref_mallq":     "pref_mallq",
-    "pref_maman":     "pref_maman",
+    "pref_julian":    "pref_juli",
+    "pref_holg":      "pref_holg",
+    "pref_lopez":     "pref_lopez",
+    "pref_edwin":     "pref_edwin",
     "pref_jancc":     "pref_jancc",
     "pref_veran":     "pref_veran",
     "pct_jxp_p":      "pct_jxp_p",
@@ -613,10 +623,11 @@ rename_cp = {
     "pct_jxp_d":      "pct_jxp_d",
     "pct_jxp_dip":    "pct_jxp_di",
     "particip":       "particip",
-    "pct_huacac":     "pct_huac",
     "pct_marq":       "pct_marq",
-    "pct_mallq":      "pct_mallq",
-    "pct_maman":      "pct_maman",
+    "pct_julian":     "pct_julian",
+    "pct_holg":       "pct_holg",
+    "pct_lopez":      "pct_lopez",
+    "pct_edwin":      "pct_edwin",
     "pct_jancc":      "pct_jancc",
     "pct_veran":      "pct_veran",
     "dist_m":         "dist_m",
