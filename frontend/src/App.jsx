@@ -3,75 +3,113 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import './App.css'
 
-// Nombres legibles por distrito (campo en GeoJSON tiene problemas de encoding con Ñ)
+// ── Configuración por región ──────────────────────────────────────────────────
+
+const REGION_CONFIG = {
+  puno: {
+    label: 'Puno',
+    subtitle: '6 distritos prioritarios',
+    geojson:   'mapa_puno.geojson',
+    distGeo:   'distritos_puno.geojson',
+    center:    [-14.9, -70.2],
+    zoom:      9,
+    distritos: [
+      { value: 'Todos',     label: 'Todos los distritos' },
+      { value: 'AZANGARO',  label: 'Azángaro' },
+      { value: 'NUNOA',     label: 'Ñuñoa' },
+      { value: 'ORURILLO',  label: 'Orurillo' },
+      { value: 'SAN ANTON', label: 'San Antón' },
+      { value: 'ANTAUTA',   label: 'Antauta' },
+      { value: 'AJOYANI',   label: 'Ajoyani' },
+    ],
+    variables: [
+      { group: 'Presidencial', key: 'pct_jxp_p',  label: '% JxP — Presidencial',        unit: '%', min: 20, max: 45, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Presidencial', key: 'pct_obras_',  label: '% Obras — Presidencial',       unit: '%', min: 10, max: 32, palette: ['#dbeafe','#93c5fd','#60a5fa','#2563eb','#1d4ed8','#1e3a8a'] },
+      { group: 'Presidencial', key: 'pct_rp_p',    label: '% Renovación Popular',         unit: '%', min: 0,  max: 2,  palette: ['#ffedd5','#fed7aa','#fb923c','#ea580c','#c2410c','#7c2d12'] },
+      { group: 'Presidencial', key: 'particip',    label: '% Participación',              unit: '%', min: 70, max: 96, palette: ['#f3e8ff','#d8b4fe','#a855f7','#7e22ce','#6b21a8','#3b0764'] },
+      { group: 'Diputados lista', key: 'pct_jxp_di', label: '% JxP — Lista Diputados',   unit: '%', min: 24, max: 45, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_jess',  label: '% Jessica Perez (#2 JxP)',   unit: '%', min: 1, max: 7, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_tito',  label: '% Cesar Tito (#3 JxP)',      unit: '%', min: 1, max: 7, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_cond',  label: '% Remigio Condori (#1 JxP)', unit: '%', min: 1, max: 7, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Otros', key: 'pct_hanc',  label: '% Dina Hancco (#1 Obras)', unit: '%', min: 0, max: 5, palette: ['#dbeafe','#93c5fd','#60a5fa','#2563eb','#1d4ed8','#1e3a8a'] },
+      { group: 'Otros', key: 'pct_sonco', label: '% Helard Sonco (#1 AN)',   unit: '%', min: 0, max: 2, palette: ['#fff1f2','#fecdd3','#fb7185','#f43f5e','#be123c','#881337'] },
+    ],
+    panelCandidatos: [
+      // Presidencial
+      [
+        { label: 'JxP',    key: 'pct_jxp_p',  color: '#4ade80' },
+        { label: 'Obras',  key: 'pct_obras_',  color: '#60a5fa' },
+        { label: 'RP',     key: 'pct_rp_p',    color: '#fb923c' },
+      ],
+      // Preferencias diputados
+      [
+        { label: 'Jessica Perez (#2 JxP)',   pct: 'pct_jess',  pref: 'pref_jess',  color: '#4ade80' },
+        { label: 'Cesar Tito (#3 JxP)',       pct: 'pct_tito',  pref: 'pref_tito',  color: '#86efac' },
+        { label: 'Remigio Condori (#1 JxP)', pct: 'pct_cond',  pref: 'pref_cond',  color: '#a7f3d0' },
+        { label: 'Dina Hancco (#1 Obras)',    pct: 'pct_hanc',  pref: 'pref_hanc',  color: '#60a5fa' },
+        { label: 'Helard Sonco (#1 AN)',      pct: 'pct_sonco', pref: 'pref_sonco', color: '#fb7185' },
+      ],
+    ],
+  },
+
+  megantoni: {
+    label: 'Megantoni',
+    subtitle: 'La Convención, Cusco',
+    geojson:   'mapa_megantoni.geojson',
+    distGeo:   'distritos_megantoni.geojson',
+    center:    [-11.72, -72.95],
+    zoom:      10,
+    distritos: [
+      { value: 'Todos', label: 'Todo el distrito' },
+    ],
+    variables: [
+      { group: 'Presidencial', key: 'pct_jxp_p',  label: '% JxP — Presidencial',       unit: '%', min: 10, max: 50, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Presidencial', key: 'pct_an_p',   label: '% Ahora Nación — Presidencial', unit: '%', min: 10, max: 55, palette: ['#fef9c3','#fde047','#facc15','#ca8a04','#a16207','#713f12'] },
+      { group: 'Presidencial', key: 'pct_fp_p',   label: '% Fuerza Popular — Presidencial', unit: '%', min: 5, max: 25, palette: ['#fff1f2','#fecdd3','#fb7185','#f43f5e','#be123c','#881337'] },
+      { group: 'Presidencial', key: 'pct_obras_', label: '% Obras — Presidencial',       unit: '%', min: 0,  max: 20, palette: ['#dbeafe','#93c5fd','#60a5fa','#2563eb','#1d4ed8','#1e3a8a'] },
+      { group: 'Presidencial', key: 'particip',   label: '% Participación',             unit: '%', min: 65, max: 95, palette: ['#f3e8ff','#d8b4fe','#a855f7','#7e22ce','#6b21a8','#3b0764'] },
+      { group: 'Senadores DEM', key: 'pct_jxp_d', label: '% JxP — Senadores DEM',      unit: '%', min: 10, max: 40, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Diputados', key: 'pct_jxp_di',   label: '% JxP — Lista Diputados',     unit: '%', min: 10, max: 40, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_huac',  label: '% M. Luz Huacac (#1 JxP)',   unit: '%', min: 0, max: 8, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_marq',  label: '% Anali Marquez (#2 JxP)',   unit: '%', min: 0, max: 8, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Diputados', key: 'pct_mallq', label: '% Julian Mallqui (#3 JxP)',  unit: '%', min: 0, max: 5, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Senadores', key: 'pct_jancc', label: '% Juana Jancco (#1 Sen. JxP)', unit: '%', min: 0, max: 8, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+      { group: 'Preferencias JxP Senadores', key: 'pct_veran', label: '% Wilfredo Verano (#2 Sen. JxP)', unit: '%', min: 0, max: 6, palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'] },
+    ],
+    panelCandidatos: [
+      // Presidencial
+      [
+        { label: 'JxP',       key: 'pct_jxp_p',  color: '#4ade80' },
+        { label: 'Ahora N.',  key: 'pct_an_p',   color: '#facc15' },
+        { label: 'FP',        key: 'pct_fp_p',   color: '#fb7185' },
+        { label: 'Obras',     key: 'pct_obras_', color: '#60a5fa' },
+      ],
+      // Preferencias diputados
+      [
+        { label: 'M. Luz Huacac (#1 JxP)',    pct: 'pct_huac',  pref: 'pref_huac',  color: '#4ade80' },
+        { label: 'Anali Marquez (#2 JxP)',    pct: 'pct_marq',  pref: 'pref_marq',  color: '#86efac' },
+        { label: 'Julian Mallqui (#3 JxP)',   pct: 'pct_mallq', pref: 'pref_mallq', color: '#a7f3d0' },
+        { label: 'Juana Jancco (#1 Sen. JxP)',pct: 'pct_jancc', pref: 'pref_jancc', color: '#fde047' },
+        { label: 'Wilfredo Verano (#2 Sen.)', pct: 'pct_veran', pref: 'pref_veran', color: '#d9f99d' },
+      ],
+    ],
+  },
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
 function distLabel(raw) {
   if (!raw) return '—'
   const u = raw.toUpperCase()
-  if (u === 'AZANGARO') return 'Azángaro'
+  if (u === 'AZANGARO')  return 'Azángaro'
   if (u.startsWith('NU') && u.includes('OA')) return 'Ñuñoa'
-  if (u === 'ORURILLO') return 'Orurillo'
+  if (u === 'ORURILLO')  return 'Orurillo'
   if (u === 'SAN ANTON') return 'San Antón'
-  if (u === 'ANTAUTA') return 'Antauta'
-  if (u === 'AJOYANI') return 'Ajoyani'
+  if (u === 'ANTAUTA')   return 'Antauta'
+  if (u === 'AJOYANI')   return 'Ajoyani'
+  if (u === 'MEGANTONI') return 'Megantoni'
   return raw
 }
-
-const VARIABLES = [
-  // ── Presidencial ─────────────────────────────────────────────────────────────
-  {
-    group: 'Presidencial',
-    key: 'pct_jxp_p', label: '% JxP — Presidencial', unit: '%', min: 20, max: 45,
-    palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'],
-  },
-  {
-    group: 'Presidencial',
-    key: 'pct_obras_', label: '% Obras — Presidencial', unit: '%', min: 10, max: 32,
-    palette: ['#dbeafe','#93c5fd','#60a5fa','#2563eb','#1d4ed8','#1e3a8a'],
-  },
-  {
-    group: 'Presidencial',
-    key: 'pct_rp_p', label: '% Renovación Popular — Presidencial', unit: '%', min: 0, max: 2,
-    palette: ['#ffedd5','#fed7aa','#fb923c','#ea580c','#c2410c','#7c2d12'],
-  },
-  {
-    group: 'Presidencial',
-    key: 'particip', label: '% Participación', unit: '%', min: 70, max: 96,
-    palette: ['#f3e8ff','#d8b4fe','#a855f7','#7e22ce','#6b21a8','#3b0764'],
-  },
-  // ── Diputados lista ──────────────────────────────────────────────────────────
-  {
-    group: 'Diputados lista',
-    key: 'pct_jxp_di', label: '% JxP — Lista Diputados', unit: '%', min: 24, max: 45,
-    palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'],
-  },
-  // ── Candidatos JxP ───────────────────────────────────────────────────────────
-  {
-    group: 'Preferencias JxP',
-    key: 'pct_jess', label: '% Jessica Perez (#2 JxP)', unit: '%', min: 1, max: 7,
-    palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'],
-  },
-  {
-    group: 'Preferencias JxP',
-    key: 'pct_tito', label: '% Cesar Tito (#3 JxP)', unit: '%', min: 1, max: 7,
-    palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'],
-  },
-  {
-    group: 'Preferencias JxP',
-    key: 'pct_cond', label: '% Remigio Condori (#1 JxP)', unit: '%', min: 1, max: 7,
-    palette: ['#dcfce7','#86efac','#4ade80','#16a34a','#15803d','#14532d'],
-  },
-  // ── Otros candidatos ─────────────────────────────────────────────────────────
-  {
-    group: 'Otros candidatos',
-    key: 'pct_hanc', label: '% Dina Hancco (#1 Obras)', unit: '%', min: 0, max: 5,
-    palette: ['#dbeafe','#93c5fd','#60a5fa','#2563eb','#1d4ed8','#1e3a8a'],
-  },
-  {
-    group: 'Otros candidatos',
-    key: 'pct_sonco', label: '% Helard Sonco (#1 AN)', unit: '%', min: 0, max: 2,
-    palette: ['#fff1f2','#fecdd3','#fb7185','#f43f5e','#be123c','#881337'],
-  },
-]
 
 function getColor(value, variable) {
   if (value == null || isNaN(value) || value === 0) return '#1e293b'
@@ -86,16 +124,6 @@ function fmt(v, unit) {
   if (unit === '%') return `${Number(v).toFixed(1)}%`
   return Number(v).toLocaleString('es-PE')
 }
-
-const DISTRITOS = [
-  { value: 'Todos',     label: 'Todos los distritos' },
-  { value: 'AZANGARO',  label: 'Azángaro' },
-  { value: 'NUNOA',     label: 'Ñuñoa' },
-  { value: 'ORURILLO',  label: 'Orurillo' },
-  { value: 'SAN ANTON', label: 'San Antón' },
-  { value: 'ANTAUTA',   label: 'Antauta' },
-  { value: 'AJOYANI',   label: 'Ajoyani' },
-]
 
 function matchDist(raw, filter) {
   if (!raw) return false
@@ -114,11 +142,14 @@ function filterFeatures(geoData, distFilter) {
   }
 }
 
+// ── Componente principal ──────────────────────────────────────────────────────
+
 export default function App() {
   const mapRef       = useRef(null)
   const layerRef     = useRef(null)
   const distLayerRef = useRef(null)
 
+  const [region,     setRegion]     = useState('puno')
   const [geoData,    setGeoData]    = useState(null)
   const [distData,   setDistData]   = useState(null)
   const [varKey,     setVarKey]     = useState('pct_jxp_p')
@@ -127,20 +158,26 @@ export default function App() {
   const [showDist,   setShowDist]   = useState(true)
   const [loading,    setLoading]    = useState(true)
 
-  const currentVar = VARIABLES.find(v => v.key === varKey)
+  const cfg        = REGION_CONFIG[region]
+  const VARIABLES  = cfg.variables
+  const currentVar = VARIABLES.find(v => v.key === varKey) || VARIABLES[0]
 
-  // Cargar GeoJSONs
+  // Cargar GeoJSONs al cambiar de región
   useEffect(() => {
+    setLoading(true)
+    setGeoData(null)
+    setDistData(null)
+    setSelected(null)
     const base = import.meta.env.BASE_URL
     Promise.all([
-      fetch(`${base}mapa_puno.geojson`).then(r => r.json()),
-      fetch(`${base}distritos_puno.geojson`).then(r => r.json()),
+      fetch(`${base}${cfg.geojson}`).then(r => r.json()),
+      fetch(`${base}${cfg.distGeo}`).then(r => r.json()),
     ]).then(([cp, dist]) => {
       setGeoData(cp)
       setDistData(dist)
       setLoading(false)
     }).catch(() => setLoading(false))
-  }, [])
+  }, [region])
 
   // Inicializar mapa (una vez)
   useEffect(() => {
@@ -157,27 +194,17 @@ export default function App() {
     }).addTo(mapRef.current)
   }, [])
 
-  // Capa de límites de distritos (toggle)
+  // Capa de límites de distritos
   useEffect(() => {
     if (!mapRef.current || !distData) return
     if (distLayerRef.current) { distLayerRef.current.remove(); distLayerRef.current = null }
     if (!showDist) return
-
     distLayerRef.current = L.geoJSON(distData, {
-      style: {
-        color: '#f59e0b',
-        weight: 2.5,
-        fillOpacity: 0,
-        dashArray: '8 5',
-      },
+      style: { color: '#f59e0b', weight: 2.5, fillOpacity: 0, dashArray: '8 5' },
       onEachFeature: (feature, layer) => {
         const p = feature.properties
         const nombre = distLabel(p.distrito || p.NAME_3 || '')
-        layer.bindTooltip(nombre, {
-          permanent: false,
-          direction: 'auto',
-          className: 'dist-label-tt',
-        })
+        layer.bindTooltip(nombre, { permanent: false, direction: 'auto', className: 'dist-label-tt' })
       },
     }).addTo(mapRef.current)
   }, [distData, showDist])
@@ -187,7 +214,7 @@ export default function App() {
     if (!mapRef.current || !geoData) return
     if (layerRef.current) { layerRef.current.remove(); layerRef.current = null }
 
-    const variable = VARIABLES.find(v => v.key === varKey)
+    const variable = VARIABLES.find(v => v.key === varKey) || VARIABLES[0]
     const filtered = filterFeatures(geoData, distFilter)
 
     layerRef.current = L.geoJSON(filtered, {
@@ -199,7 +226,7 @@ export default function App() {
       }),
       onEachFeature: (feature, layer) => {
         layer.on({
-          click: () => setSelected(feature.properties),
+          click:     () => setSelected(feature.properties),
           mouseover: e => e.target.setStyle({ weight: 2, color: '#e2e8f0', fillOpacity: 0.95 }),
           mouseout:  e => layerRef.current?.resetStyle(e.target),
         })
@@ -211,12 +238,11 @@ export default function App() {
     }
   }, [geoData, varKey, distFilter])
 
-  const nCPs = geoData
-    ? filterFeatures(geoData, distFilter).features.length
-    : '—'
-
-  // Agrupar variables por grupo para el select
+  const nCPs = geoData ? filterFeatures(geoData, distFilter).features.length : '—'
   const groups = [...new Set(VARIABLES.map(v => v.group))]
+
+  // Panel lateral de candidatos: estructura diferente por región
+  const [presRow, prefRows] = cfg.panelCandidatos
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0f172a' }}>
@@ -225,12 +251,43 @@ export default function App() {
       <div className="header">
         <div style={{ flex: 1 }}>
           <h1 style={{ fontSize: 16, fontWeight: 700, color: '#f8fafc', margin: 0 }}>
-            Inteligencia Territorial — Puno
+            Inteligencia Territorial — {cfg.label}
           </h1>
           <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>
-            Diputados &amp; Presidencial 2026 · 6 distritos prioritarios
+            Diputados &amp; Presidencial 2026 · {cfg.subtitle}
           </div>
         </div>
+
+        {/* Selector de región */}
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginRight: 16 }}>
+          {Object.entries(REGION_CONFIG).map(([key, r]) => (
+            <button
+              key={key}
+              onClick={() => {
+                if (key === region) return
+                setRegion(key)
+                setVarKey(REGION_CONFIG[key].variables[0].key)
+                setDistFilter('Todos')
+                setSelected(null)
+              }}
+              style={{
+                padding: '4px 12px',
+                borderRadius: 6,
+                border: '1px solid',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+                background:    key === region ? '#3b82f6' : '#1e293b',
+                color:         key === region ? '#fff'    : '#94a3b8',
+                borderColor:   key === region ? '#3b82f6' : '#475569',
+                transition: 'all 0.15s',
+              }}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+
         <div style={{ fontSize: 12, color: '#64748b', textAlign: 'right' }}>
           {nCPs} centros poblados
         </div>
@@ -242,7 +299,7 @@ export default function App() {
         <div id="map" style={{ width: '100%', height: '100%' }} />
 
         {/* Panel de controles (top-left) */}
-        <div className="variable-control" style={{ width: 250, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="variable-control" style={{ width: 260, display: 'flex', flexDirection: 'column', gap: 10 }}>
 
           <div>
             <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 6 }}>
@@ -263,20 +320,22 @@ export default function App() {
             </select>
           </div>
 
-          <div>
-            <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 6 }}>
-              Distrito
-            </label>
-            <select
-              value={distFilter}
-              onChange={e => { setDistFilter(e.target.value); setSelected(null) }}
-              style={{ width: '100%', background: '#0f172a', color: '#e2e8f0', border: '1px solid #475569', borderRadius: 4, padding: '6px 8px', fontSize: 12, cursor: 'pointer', outline: 'none' }}
-            >
-              {DISTRITOS.map(d => (
-                <option key={d.value} value={d.value}>{d.label}</option>
-              ))}
-            </select>
-          </div>
+          {cfg.distritos.length > 1 && (
+            <div>
+              <label style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: 6 }}>
+                Distrito
+              </label>
+              <select
+                value={distFilter}
+                onChange={e => { setDistFilter(e.target.value); setSelected(null) }}
+                style={{ width: '100%', background: '#0f172a', color: '#e2e8f0', border: '1px solid #475569', borderRadius: 4, padding: '6px 8px', fontSize: 12, cursor: 'pointer', outline: 'none' }}
+              >
+                {cfg.distritos.map(d => (
+                  <option key={d.value} value={d.value}>{d.label}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 12, color: '#cbd5e1', userSelect: 'none' }}>
             <input
@@ -287,15 +346,12 @@ export default function App() {
             />
             Límites de distritos
           </label>
-
         </div>
 
         {/* Leyenda */}
         <div className="legend">
           <div className="legend-title">{currentVar.label}</div>
-          <div className="legend-gradient" style={{
-            background: `linear-gradient(to right, ${currentVar.palette.join(',')})`,
-          }} />
+          <div className="legend-gradient" style={{ background: `linear-gradient(to right, ${currentVar.palette.join(',')})` }} />
           <div className="legend-labels">
             <span>{currentVar.min}%</span>
             <span>{currentVar.max}%</span>
@@ -304,23 +360,14 @@ export default function App() {
 
         {/* Spinner */}
         {loading && (
-          <div style={{
-            position: 'absolute', top: '50%', left: '50%',
-            transform: 'translate(-50%,-50%)',
-            background: '#1e293b', color: '#e2e8f0',
-            padding: '12px 24px', borderRadius: 8, zIndex: 9999, fontSize: 13,
-          }}>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: '#1e293b', color: '#e2e8f0', padding: '12px 24px', borderRadius: 8, zIndex: 9999, fontSize: 13 }}>
             Cargando datos…
           </div>
         )}
 
         {/* Panel lateral */}
         {selected && (
-          <div style={{
-            position: 'absolute', top: 0, right: 0, bottom: 0, width: 300,
-            background: '#1e293b', borderLeft: '1px solid #334155',
-            overflowY: 'auto', zIndex: 900, padding: 20,
-          }}>
+          <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: 300, background: '#1e293b', borderLeft: '1px solid #334155', overflowY: 'auto', zIndex: 900, padding: 20 }}>
             <button
               onClick={() => setSelected(null)}
               style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', color: '#94a3b8', fontSize: 18, cursor: 'pointer' }}
@@ -356,9 +403,7 @@ export default function App() {
             </div>
             <div className="stat-row">
               <span className="stat-label">Distancia al local</span>
-              <span className="stat-value">
-                {selected.dist_m ? `${(selected.dist_m / 1000).toFixed(1)} km` : '—'}
-              </span>
+              <span className="stat-value">{selected.dist_m ? `${(selected.dist_m/1000).toFixed(1)} km` : '—'}</span>
             </div>
 
             <div className="section-title" style={{ marginTop: 12 }}>Participación</div>
@@ -376,21 +421,14 @@ export default function App() {
             </div>
 
             <div className="section-title" style={{ marginTop: 12 }}>Presidencial</div>
-            {[
-              { label: 'JxP',    key: 'pct_jxp_p',  color: '#4ade80' },
-              { label: 'Obras',  key: 'pct_obras_',  color: '#60a5fa' },
-              { label: 'RP',     key: 'pct_rp_p',    color: '#fb923c' },
-            ].map(({ label, key, color }) => (
+            {presRow.map(({ label, key, color }) => (
               <div key={key} className="partido-row">
                 <div className="partido-header">
                   <span className="partido-nombre">{label}</span>
                   <span className="partido-pct" style={{ color }}>{fmt(selected[key], '%')}</span>
                 </div>
                 <div className="barra-bg">
-                  <div className="barra-fill" style={{
-                    width: `${Math.min(100, (selected[key] || 0) / 50 * 100)}%`,
-                    background: color,
-                  }} />
+                  <div className="barra-fill" style={{ width: `${Math.min(100, (selected[key]||0)/60*100)}%`, background: color }} />
                 </div>
               </div>
             ))}
@@ -401,14 +439,18 @@ export default function App() {
               <span className="stat-value" style={{ color: '#4ade80' }}>{fmt(selected.pct_jxp_di, '%')}</span>
             </div>
 
-            <div className="section-title" style={{ marginTop: 12 }}>Preferencias Diputados</div>
-            {[
-              { label: 'Jessica Perez (#2 JxP)',  pct: 'pct_jess',  pref: 'pref_jess',  color: '#4ade80' },
-              { label: 'Cesar Tito (#3 JxP)',      pct: 'pct_tito',  pref: 'pref_tito',  color: '#86efac' },
-              { label: 'Remigio Condori (#1 JxP)', pct: 'pct_cond',  pref: 'pref_cond',  color: '#a7f3d0' },
-              { label: 'Dina Hancco (#1 Obras)',   pct: 'pct_hanc',  pref: 'pref_hanc',  color: '#60a5fa' },
-              { label: 'Helard Sonco (#1 AN)',     pct: 'pct_sonco', pref: 'pref_sonco', color: '#fb7185' },
-            ].map(({ label, pct, pref, color }) => (
+            {region === 'megantoni' && (
+              <>
+                <div className="section-title" style={{ marginTop: 12 }}>Senadores DEM — Lista JxP</div>
+                <div className="stat-row">
+                  <span className="stat-label">% JxP</span>
+                  <span className="stat-value" style={{ color: '#4ade80' }}>{fmt(selected.pct_jxp_d, '%')}</span>
+                </div>
+              </>
+            )}
+
+            <div className="section-title" style={{ marginTop: 12 }}>Preferencias</div>
+            {prefRows.map(({ label, pct, pref, color }) => (
               <div key={pct} className="stat-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                   <span className="stat-label" style={{ fontSize: 11 }}>{label}</span>
@@ -418,10 +460,7 @@ export default function App() {
                   </span>
                 </div>
                 <div className="barra-bg" style={{ width: '100%' }}>
-                  <div className="barra-fill" style={{
-                    width: `${Math.min(100, (selected[pct] || 0) / 8 * 100)}%`,
-                    background: color,
-                  }} />
+                  <div className="barra-fill" style={{ width: `${Math.min(100, (selected[pct]||0)/8*100)}%`, background: color }} />
                 </div>
               </div>
             ))}
