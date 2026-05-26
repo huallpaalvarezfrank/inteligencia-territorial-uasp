@@ -4,22 +4,22 @@
     {
       "type": "Feature",
       "properties": { "nombre": "IE Juan Santos Atahualpa", "local": "IE JUAN SANTOS ATAHUALPA", "fuente": "aproximado" },
-      "geometry": { "type": "Point", "coordinates": [-73.013, -11.874] }
+      "geometry": { "type": "Point", "coordinates": [-73.005100, -11.387800] }
     },
     {
       "type": "Feature",
       "properties": { "nombre": "IE 64443 Camisea", "local": "IE 64443 CAMISEA", "fuente": "aproximado" },
-      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+      "geometry": { "type": "Point", "coordinates": [-73.003700, -11.386800] }
     },
     {
       "type": "Feature",
       "properties": { "nombre": "IEI 375 Camisea", "local": "IEI 375 CAMISEA", "fuente": "aproximado" },
-      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+      "geometry": { "type": "Point", "coordinates": [-73.026900, -11.301200] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA", "fuente": "confirmado" },
-      "geometry": { "type": "Point", "coordinates": [-72.2439245917611, -12.225984042716568] }
+      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.133800, -11.783000] }
     },
     {
       "type": "Feature",
@@ -33,8 +33,8 @@
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA", "fuente": "confirmado" },
-      "geometry": { "type": "Point", "coordinates": [-72.93325425209586, -11.936009025054517] }
+      "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-72.933966, -11.936302] }
     },
     {
       "type": "Feature",
@@ -53,8 +53,8 @@
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI", "fuente": "confirmado" },
-      "geometry": { "type": "Point", "coordinates": [-73.32988355333782, -11.763917958013092] }
+      "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.326000, -11.766400] }
     },
     {
       "type": "Feature",
