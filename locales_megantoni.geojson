@@ -19,7 +19,7 @@
     {
       "type": "Feature",
       "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA" },
-      "geometry": { "type": "Point", "coordinates": [-72.779, -11.493] }
+      "geometry": { "type": "Point", "coordinates": [-72.2439245917611, -12.225984042716568] }
     },
     {
       "type": "Feature",
@@ -34,7 +34,7 @@
     {
       "type": "Feature",
       "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA" },
-      "geometry": { "type": "Point", "coordinates": [-72.765, -12.087] }
+      "geometry": { "type": "Point", "coordinates": [-72.93325425209586, -11.936009025054517] }
     },
     {
       "type": "Feature",
@@ -54,7 +54,7 @@
     {
       "type": "Feature",
       "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI" },
-      "geometry": { "type": "Point", "coordinates": [-72.848, -11.540] }
+      "geometry": { "type": "Point", "coordinates": [-73.32988355333782, -11.763917958013092] }
     },
     {
       "type": "Feature",
