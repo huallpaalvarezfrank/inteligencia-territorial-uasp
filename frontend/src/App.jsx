@@ -55,8 +55,9 @@ const REGION_CONFIG = {
   megantoni: {
     label: 'Megantoni',
     subtitle: 'La Convención, Cusco',
-    geojson:   'mapa_megantoni.geojson',
-    distGeo:   'distritos_megantoni.geojson',
+    geojson:    'mapa_megantoni.geojson',
+    distGeo:    'distritos_megantoni.geojson',
+    localesGeo: 'locales_megantoni.geojson',
     center:    [-11.72, -72.95],
     zoom:      10,
     distritos: [
@@ -147,13 +148,15 @@ function filterFeatures(geoData, distFilter) {
 // ── Componente principal ──────────────────────────────────────────────────────
 
 export default function App() {
-  const mapRef       = useRef(null)
-  const layerRef     = useRef(null)
-  const distLayerRef = useRef(null)
+  const mapRef        = useRef(null)
+  const layerRef      = useRef(null)
+  const distLayerRef  = useRef(null)
+  const localesRef    = useRef(null)
 
   const [region,     setRegion]     = useState('puno')
   const [geoData,    setGeoData]    = useState(null)
   const [distData,   setDistData]   = useState(null)
+  const [localesData,setLocalesData]= useState(null)
   const [varKey,     setVarKey]     = useState('pct_jxp_p')
   const [selected,   setSelected]   = useState(null)
   const [distFilter, setDistFilter] = useState('Todos')
@@ -169,14 +172,20 @@ export default function App() {
     setLoading(true)
     setGeoData(null)
     setDistData(null)
+    setLocalesData(null)
     setSelected(null)
     const base = import.meta.env.BASE_URL
-    Promise.all([
+    const fetches = [
       fetch(`${base}${cfg.geojson}`).then(r => r.json()),
       fetch(`${base}${cfg.distGeo}`).then(r => r.json()),
-    ]).then(([cp, dist]) => {
+    ]
+    if (cfg.localesGeo) {
+      fetches.push(fetch(`${base}${cfg.localesGeo}`).then(r => r.json()).catch(() => null))
+    }
+    Promise.all(fetches).then(([cp, dist, locales]) => {
       setGeoData(cp)
       setDistData(dist)
+      setLocalesData(locales || null)
       setLoading(false)
     }).catch(() => setLoading(false))
   }, [region])
@@ -239,6 +248,34 @@ export default function App() {
       mapRef.current.fitBounds(layerRef.current.getBounds(), { padding: [20, 20] })
     }
   }, [geoData, varKey, distFilter])
+
+  // Capa de locales de votación (puntos con tooltip)
+  useEffect(() => {
+    if (!mapRef.current) return
+    if (localesRef.current) { localesRef.current.remove(); localesRef.current = null }
+    if (!localesData) return
+
+    localesRef.current = L.geoJSON(localesData, {
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, {
+          radius: 7,
+          fillColor: '#f59e0b',
+          color: '#0f172a',
+          weight: 1.5,
+          fillOpacity: 0.95,
+        })
+      },
+      onEachFeature: (feature, layer) => {
+        const nombre = feature.properties.nombre || feature.properties.local || ''
+        layer.bindTooltip(nombre, {
+          permanent: false,
+          direction: 'top',
+          offset: [0, -8],
+          className: 'local-tooltip',
+        })
+      },
+    }).addTo(mapRef.current)
+  }, [localesData])
 
   const nCPs = geoData ? filterFeatures(geoData, distFilter).features.length : '—'
   const groups = [...new Set(VARIABLES.map(v => v.group))]

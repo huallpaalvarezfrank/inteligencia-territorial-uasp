@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE Juan Santos Atahualpa", "local": "IE JUAN SANTOS ATAHUALPA" },
+      "geometry": { "type": "Point", "coordinates": [-73.013, -11.874] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64443 Camisea", "local": "IE 64443 CAMISEA" },
+      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IEI 375 Camisea", "local": "IEI 375 CAMISEA" },
+      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA" },
+      "geometry": { "type": "Point", "coordinates": [-72.779, -11.493] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64446 Primaria", "local": "IE 64446 PRIMARIA" },
+      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE Carlos Ríos Ríos", "local": "IE CARLOS RIOS RIOS" },
+      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA" },
+      "geometry": { "type": "Point", "coordinates": [-72.765, -12.087] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64449 Nueva Luz", "local": "IE 64449 PRIMARIA NUEVA LUZ" },
+      "geometry": { "type": "Point", "coordinates": [-72.870, -11.690] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 50294 Mons. Javier Ariz Huarte", "local": "IE 50294 MONSENOR JAVIER ARIZ HUARTE PRIMARIA" },
+      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IEI 373 Shivankoreni", "local": "IEI 373 SHIVANKORENI" },
+      "geometry": { "type": "Point", "coordinates": [-72.777, -11.803] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI" },
+      "geometry": { "type": "Point", "coordinates": [-72.848, -11.540] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "nombre": "IE 64125 Fray Julián Macegoza", "local": "IE 64125 FRAY JULIAN MACEGOZA" },
+      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+    }
+  ]
+}

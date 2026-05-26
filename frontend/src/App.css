@@ -281,3 +281,20 @@ body {
   pointer-events: none;
 }
 .dist-label-tt::before { display: none !important; }
+
+
+/* Tooltip locales de votacion */
+.local-tooltip {
+  background: #1e293b !important;
+  border: 1px solid #f59e0b !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+  color: #fef3c7 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  white-space: nowrap;
+}
+.local-tooltip::before {
+  border-top-color: #f59e0b !important;
+}
