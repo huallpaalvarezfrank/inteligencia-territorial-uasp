@@ -18,8 +18,8 @@
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA", "fuente": "google" },
-      "geometry": { "type": "Point", "coordinates": [-73.042898, -11.744786] }
+      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.133800, -11.783000] }
     },
     {
       "type": "Feature",
