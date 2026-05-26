@@ -3,63 +3,63 @@
   "features": [
     {
       "type": "Feature",
-      "properties": { "nombre": "IE Juan Santos Atahualpa", "local": "IE JUAN SANTOS ATAHUALPA" },
+      "properties": { "nombre": "IE Juan Santos Atahualpa", "local": "IE JUAN SANTOS ATAHUALPA", "fuente": "aproximado" },
       "geometry": { "type": "Point", "coordinates": [-73.013, -11.874] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64443 Camisea", "local": "IE 64443 CAMISEA" },
+      "properties": { "nombre": "IE 64443 Camisea", "local": "IE 64443 CAMISEA", "fuente": "aproximado" },
       "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IEI 375 Camisea", "local": "IEI 375 CAMISEA" },
+      "properties": { "nombre": "IEI 375 Camisea", "local": "IEI 375 CAMISEA", "fuente": "aproximado" },
       "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA" },
+      "properties": { "nombre": "IE 64450 Puerto Huallana", "local": "IE 64450 PUERTO HUALLANA", "fuente": "confirmado" },
       "geometry": { "type": "Point", "coordinates": [-72.2439245917611, -12.225984042716568] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64446 Primaria", "local": "IE 64446 PRIMARIA" },
-      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+      "properties": { "nombre": "IE 64446 Primaria", "local": "IE 64446 PRIMARIA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-72.996946, -11.301697] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE Carlos Ríos Ríos", "local": "IE CARLOS RIOS RIOS" },
-      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+      "properties": { "nombre": "IE Carlos Ríos Ríos", "local": "IE CARLOS RIOS RIOS", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.135400, -11.544100] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA" },
+      "properties": { "nombre": "IE 64553 Ticumpinia", "local": "IE 64553 TICUMPINIA", "fuente": "confirmado" },
       "geometry": { "type": "Point", "coordinates": [-72.93325425209586, -11.936009025054517] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64449 Nueva Luz", "local": "IE 64449 PRIMARIA NUEVA LUZ" },
-      "geometry": { "type": "Point", "coordinates": [-72.870, -11.690] }
+      "properties": { "nombre": "IE 64449 Nueva Luz", "local": "IE 64449 PRIMARIA NUEVA LUZ", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.033114, -11.451947] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 50294 Mons. Javier Ariz Huarte", "local": "IE 50294 MONSENOR JAVIER ARIZ HUARTE PRIMARIA" },
-      "geometry": { "type": "Point", "coordinates": [-72.659, -11.917] }
+      "properties": { "nombre": "IE 50294 Mons. Javier Ariz Huarte", "local": "IE 50294 MONSENOR JAVIER ARIZ HUARTE PRIMARIA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-73.130200, -11.573000] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IEI 373 Shivankoreni", "local": "IEI 373 SHIVANKORENI" },
-      "geometry": { "type": "Point", "coordinates": [-72.777, -11.803] }
+      "properties": { "nombre": "IEI 373 Shivankoreni", "local": "IEI 373 SHIVANKORENI", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-72.930100, -11.713500] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI" },
+      "properties": { "nombre": "IEI 331 Tangoshiari", "local": "IEI 331 TANGOSHIARI", "fuente": "confirmado" },
       "geometry": { "type": "Point", "coordinates": [-73.32988355333782, -11.763917958013092] }
     },
     {
       "type": "Feature",
-      "properties": { "nombre": "IE 64125 Fray Julián Macegoza", "local": "IE 64125 FRAY JULIAN MACEGOZA" },
-      "geometry": { "type": "Point", "coordinates": [-72.770, -11.780] }
+      "properties": { "nombre": "IE 64125 Fray Julián Macegoza", "local": "IE 64125 FRAY JULIAN MACEGOZA", "fuente": "osm" },
+      "geometry": { "type": "Point", "coordinates": [-72.820297, -12.081231] }
     }
   ]
 }
